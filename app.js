@@ -6,11 +6,11 @@ var main = function () {
             $(".tabs a span").removeClass("active");
             $element.addClass("active");
             $("main .content").empty();
-            if ($element.parent().is(":nth-код для этого элемента может выглядеть вот так:child(1)")) {
+            if ($element.parent().is(":nth-child(1)")) {
                 console.log("Щелчок на первой вкладке!");
-            } else if ($element.parent().is(":nth-код для этого элемента может выглядеть вот так:child(2)")) {
+            } else if ($element.parent().is(":nth-child(2)")) {
                 console.log("Щелчок на второй вкладке!");
-            } else if ($element.parent().is(":nth-код для этого элемента может выглядеть вот так:child(3)")) {
+            } else if ($element.parent().is(":nth-child(3)")) {
                 console.log("Щелчок на третьей вкладке!");
             }
             return false;
