@@ -67,55 +67,12 @@ nav {
 	display: inline-block;
 	border-radius: 5px 5px 0 0;
 	width: 100px;
-	margin-left: 10px;
+	margin-right: 10px;
 	text-align: center;
-	background: #fff;
+	background: #ddd;
 	padding: 5px;
-	color: #000;
-	cursor: pointer;
 }
 
 .tabs a span.active {
-	background: #F1E1FE;
-	color: #000;
+	background: #eee;
 }
-
-.tabs a span.hover {
-	background: #F1E1FE;
-	color: #000;
-}
-
-.content {
-	border: 1px solid #fff;
-}
-
-.content-active {
-	border: 1px solid #F1E1FE;
-}
-
-.inputStyle {
-	height: 25px;
-	margin-left: 10px;
-	margin-top: 10px;
-	margin-bottom: 10px;
-	width: 363px;
-}
-
-.buttonStyle {
-	margin-bottom: 10px;
-	width: 100px;
-	height: 25px;
-	cursor: pointer;
-	margin-left: 279px;
-	background: #fff;
-}
-
-.buttonStyle:hover {
-	background: #F1E1FE;
-	color: #fff;
-}
-
-.buttonStyle:active {
-	background: #F1E1FE;
-	color: #fff;
-}    
