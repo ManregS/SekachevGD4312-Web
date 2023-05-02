@@ -77,3 +77,15 @@ nav {
 .tabs a span.active {
 	background: #00735e;
 }
+
+input {
+    outline: 0;
+    border-width: 0 0 2px;
+    border-color: #14b094;
+    background-color: #e9ded4;
+    color: #00735e;
+}
+
+input:focus {
+    border-color: #00735e;
+}
