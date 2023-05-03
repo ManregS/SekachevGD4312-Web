@@ -43,17 +43,17 @@ function convertToTags(obj) {
 	var newToDosTags = obj.map(function (toDo) {
 		return toDo.tags;
 	});
-	
+
 	var newTags = function(name, toDos) {
 		this.name = name;
 		this.toDos = toDos;
 	}
-	
+
 	var newArray = [];
 	var arrayTags = [];
 	var strTag = '';
 	var array = [];
-	
+
 	for (var i = 0; i < newToDosTags.length; i++) {
 		for (var j = 0; j < newToDosTags[i].length; j++) {
 			if (arrayTags.indexOf(newToDosTags[i][j]) == -1) {
@@ -64,24 +64,25 @@ function convertToTags(obj) {
 						newArray.push(newToDosDescription[k]);
 					}
 				}
-				
+
 				var x = new newTags(strTag, newArray);
 				newArray = [];
 				array.push(x);
 			}
 		}
 	}
-	
+
 	let json = JSON.stringify(array);
 	json = JSON.parse(json);
-	
+
 	return json;
 }
 
 var main = function (toDoObjects) {
 	"use strict";
 	
-	var organizedByTag = organizeByTags(toDoObjects);
+	var organizedByTagNewOld = organizeByTags(toDoObjects);
+	var organizedByTag = convertToTags(toDoObjects);
 	
 	$(".tabs a span").toArray().forEach(function (element) {
 		$(element).on("click", function () {
@@ -92,13 +93,13 @@ var main = function (toDoObjects) {
 			$(".content").empty();
 			if ($element.parent().is(":nth-child(1)")) {
 				$content = $("<ul>");
-				for (var i = organizedByTag.length - 1; i > -1; i--) {
-					$content.append($("<li>").text(organizedByTag[i].name));
+				for (var i = organizedByTagNewOld.length - 1; i > -1; i--) {
+					$content.append($("<li>").text(organizedByTagNewOld[i].name));
 				}
 				$(".content").append($content);
 			} else if ($element.parent().is(":nth-child(2)")) {
 				$content = $("<ul>");
-				organizedByTag.forEach(function (todo) {
+				organizedByTagNewOld.forEach(function (todo) {
 					$content.append($("<li>").text(todo.name));
 				});
 				$(".content").append($content);
