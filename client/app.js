@@ -2,7 +2,7 @@ var $content;
 
 function loadBody() {
 	$(document).ready(function () {
-		$.getJSON("clients.json", function (toDoObjects) {
+		$.getJSON("clients", function (toDoObjects) {
 			main(toDoObjects);
 		});
 	});
@@ -142,28 +142,14 @@ var main = function (toDoObjects) {
 		}
 
 		$.post("clients", newRecord, function (result) {
-			console.log(result);
-			
 			toDoObjects.push(newRecord);
-
+			alert("Предложение успешно добавлено в список!");
+			
 			organizedByTag = organizeByTags(toDoObjects);
 			organizedByTagOLD = organizeByTagsOLD(toDoObjects);
-			
+
 			$("#description").val("");
 			$("#tags").val("");
 		});
 	});
-}
-
-function updateJson(toDoObjects, newDescription, newTags) {
-	var newJsonObject = function(description, tags) {
-		this.description = description;
-		this.tags = tags
-	}
-	
-	var newJson = new newJsonObject(newDescription, newTags);
-	toDoObjects.push(newJson);
-	alert("Предложение успешно добавлено в список!");
-
-	return toDoObjects;
 }
