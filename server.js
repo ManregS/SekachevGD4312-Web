@@ -1,7 +1,8 @@
 const express = require("express");
 const http = require("http"); 
 const mongoose = require("mongoose");
-var Schema = mongoose.Schema;
+const ClientsController = require("./controller/ClientsController.js");
+const UsersController = require("./controller/UsersController.js");
 
 var app = express()
 http.createServer(app).listen(3000);
@@ -16,40 +17,19 @@ mongoose.connect("mongodb://0.0.0.0:27017/salon", { useNewUrlParser: true, useUn
             console.log('bad connection...');
         });
 
-var Client = mongoose.model("Client", new Schema({
-    description: String,
-    tags: [ String ]
-}));
+app.get("/clients", ClientsController.index);
+app.get("/clients/:id", ClientsController.show); 
+app.post("/clients", ClientsController.create);
+app.put("/clients/:id", ClientsController.update);
+app.delete("/clients/:id", ClientsController.destroy);
 
-app.get("/clients", async (req, res) => {
-    await Client.find()
-                .then(async (Clients) => {
-					res.json(Clients);
-				})
-				.catch((err) => {
-					console.log(err);
-				});
-});
+app.get("/users/:username/clients", ClientsController.index);
+app.post("/users/:username/clients", ClientsController.create);
+app.put("/users/:username/clients/:id", ClientsController.update);
+app.delete("/users/:username/clients/:id", ClientsController.destroy);
 
-app.post("/clients", async (req, res) => {
-	console.log(req.body);
-	let newClient = new Client({
-        "description": req.body.description, 
-        "tags": req.body.tags
-    });
-	
-	await newClient.save()
-                   .then(async (result) => {
-                       await Client.find()
-                           .then(async (result) => {
-                               res.json(result);
-                           })
-                           .catch(async (err) => {
-                               res.send(err);
-                           });
-                   })
-                   .catch(async (err) => {
-                       console.log(err);
-                       res.send("ERROR");
-                   });
-});
+app.get("/users", UsersController.index); 
+app.post("/users", UsersController.create); 
+app.get("/users/:username", UsersController.show);
+app.put("/users/:username", UsersController.update);
+app.delete("/users/:username", UsersController.destroy);
