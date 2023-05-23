@@ -1,48 +1,55 @@
-var express = require("express"),
-    http = require("http"),
-    app = express(),
-    clients = [
-        {
-            "description": "Секачев Г.Д.",
-            "tags": [
-                "10.04.2023",
-                "15.04.2023"
-            ]
-        },
-        {
-            "description": "Галиев И.Р.",
-            "tags": [
-                "02.05.2023"
-            ]
-        },
-        {
-            "description": "Ямалтдинова Н.Ф.",
-            "tags": [
-                "02.04.2023",
-                "03.05.2023"
-            ]
-        },
-        {
-            "description": "Анисов А.С.",
-            "tags": [
-                "23.04.2023"
-            ]
-        }
-    ];
+const express = require("express");
+const http = require("http"); 
+const mongoose = require("mongoose");
+var Schema = mongoose.Schema;
 
-app.use(express.static(__dirname + "/client"));
+var app = express()
 http.createServer(app).listen(3000);
-
-app.get("/clients", function (req, res) {
-    res.json(clients);
-});
-
+app.use(express.static(__dirname + "/client"));
 app.use(express.urlencoded({ extended: true }));
-app.post("/clients", function (req, res) {
-    var newRecord = req.body;
-    console.log(newRecord);
-    clients.push(newRecord);
 
-    res.json({ "message": "Вы размещаетесь на сервере!" });
+mongoose.connect("mongodb://0.0.0.0:27017/salon", { useNewUrlParser: true, useUnifiedTopology: true })
+        .then(() => {
+            console.log('db connected...');
+        })
+        .catch(() => {
+            console.log('bad connection...');
+        });
+
+var Client = mongoose.model("Client", new Schema({
+    description: String,
+    tags: [ String ]
+}));
+
+app.get("/clients", async (req, res) => {
+    await Client.find()
+                .then(async (Clients) => {
+					res.json(Clients);
+				})
+				.catch((err) => {
+					console.log(err);
+				});
 });
 
+app.post("/clients", async (req, res) => {
+	console.log(req.body);
+	let newClient = new Client({
+        "description": req.body.description, 
+        "tags": req.body.tags
+    });
+	
+	await newClient.save()
+                   .then(async (result) => {
+                       await Client.find()
+                           .then(async (result) => {
+                               res.json(result);
+                           })
+                           .catch(async (err) => {
+                               res.send(err);
+                           });
+                   })
+                   .catch(async (err) => {
+                       console.log(err);
+                       res.send("ERROR");
+                   });
+});
