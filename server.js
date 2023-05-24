@@ -8,7 +8,7 @@ http.createServer(app).listen(3000);
 app.use(express.static(__dirname + "/client"));
 app.use(express.urlencoded({ extended: true }));
 
-mongoose.connect("mongodb://0.0.0.0:27017/salon", { useNewUrlParser: true, useUnifiedTopology: true })
+mongoose.connect("mongodb://0.0.0.0:27017/salon8", { useNewUrlParser: true, useUnifiedTopology: true })
         .then(() => {
             console.log('db connected...');
         })
